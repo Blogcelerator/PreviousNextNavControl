@@ -8,37 +8,34 @@
    Author URI: http://joshbjones.com
    License: GPL2
    */
-   
-   /*
-   Runs during plugin activation
-   register_activation_hook(__FILE__,'PreviousNext_Install');
-   
-   function PreviousNext_Install(){
-   
-   }
-      */
-	  
-      /* 
-   Runs during plugin deactivation
 
-	register_deactivation_hook( __FILE__, 'PreviousNext_Uninstall' );
-	
-	function PreviousNext_Uninstall(){
-	
-	}
-	   */
-   function Sort_Previous_Nav(){
-	/*if(is_single()){*/
-		$prev_posts = previous_post_link('<span class="prev">%link</span>', '<em class="arrow">&laquo;</em> %title', $in_same_cat, '353');
-	/*}*/
-   }
-   
-   function Sort_Next_Nav(){
-	/*if(is_single()){*/
-		$next_posts = next_post_link('<span class="next">%link</span>', '<em class="arrow">&raquo;</em> %title', $in_same_cat, '353');
-	/*}*/
-   }
-   
-   add_action("previous_post_link", "Sort_Previous_Nav");   
-   add_action("next_post_link", "Sort_Next_Nav");
+if (!class_exists("PreviousNextNavControl")) { 
+    class PreviousNextNavControl { 
+        function PreviousNextNavControl() { 
+		//constructor 
+        } 
+		function addHeaderCode() { 
+			<?php 
+			<!-- Devlounge Was Here --> 
+			?> 
+		}
+		function addContent($content = '') { 
+            $content .= "<p>Devlounge Was Here</p>"; 
+            return $content; 
+        } 
+    }  
+} 
+//End Class PreviousNextNavControl 
+
+if (class_exists("PreviousNextNavControl")) { 
+    $dl_PreviousNext = new PreviousNextNavControl(); 
+} 
+
+//Actions and Filters    
+if (isset($dl_PreviousNext)) { 
+    //Actions 
+	add_action('wp_head', array(&$dl_PreviousNext, 'addHeaderCode'), 1);
+    //Filters
+	add_filter('the_content', array(&$dl_PreviousNext, 'addContent')); 	
+}
 ?>
